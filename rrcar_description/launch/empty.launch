@@ -15,6 +15,5 @@
 	<node name="base_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model base -z 1" />
 
 	<node name="base_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-	<node name="base_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
 </launch>

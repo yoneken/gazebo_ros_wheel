@@ -166,7 +166,7 @@ include_directories(
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(DIRECTORY
-  robots urdf launch
+  robots urdf meshes launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
