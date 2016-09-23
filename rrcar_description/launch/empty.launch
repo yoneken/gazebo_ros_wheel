@@ -1,0 +1,20 @@
+<launch>
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="paused" value="false"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="gui" value="true"/>
+		<arg name="headless" value="false"/>
+		<arg name="debug" value="false"/>
+		<arg name="world_name" value="$(find racecar_gazebo)/worlds/racecar.world"/>
+	</include>
+
+	<param name="robot_description" command="$(find xacro)/xacro '$(find rrcar_description)/robots/base.urdf.xacro'"/>
+
+	<!-- push robot_description to factory and spawn robot in gazebo -->
+	<node name="base_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model base -z 1" />
+
+	<node name="base_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+	<node name="base_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+</launch>
