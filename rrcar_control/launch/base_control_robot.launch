@@ -1,0 +1,27 @@
+<launch>
+
+	<!-- Load joint controller configurations from YAML file to parameter server -->
+	<rosparam file="$(find rrcar_control)/config/base_control.yaml" command="load"/>
+
+	<!-- load the controllers -->
+	<node name="base_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+		output="screen" ns="/base" args="wheel_left_effort_controller wheel_right_effort_controller joint_state_controller"/>
+
+	<!-- convert joint states to TF transforms for rviz, etc -->
+	<node name="base_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+		respawn="false" output="screen">
+		<remap from="/joint_states" to="/base/joint_states" />
+	</node>
+
+	<node name="base_controller" pkg="rrcar_control" type="rrcar_control" ns="/base"/>
+
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/wheel_left">
+		<arg name="node_name" value="vesc_wheel_l"/>
+		<arg name="port" value="/dev/ttyWheelL"/>
+	</include>
+
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/wheel_right>
+		<arg name="node_name" value="vesc_wheel_r"/>
+		<arg name="port" value="/dev/ttyWheelR"/>
+	</include>
+</launch>

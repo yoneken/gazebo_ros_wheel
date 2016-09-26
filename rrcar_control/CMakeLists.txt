@@ -132,7 +132,7 @@ include_directories(
 # add_dependencies(rrcar_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(rrcar_driver src/base_driver.cpp src/TwoWheeled.cpp)
+add_executable(rrcar_driver src/base_driver_node.cpp src/TwoWheeled.cpp)
 add_executable(rrcar_control src/base_controller.cpp)
 
 ## Add cmake target dependencies of the executable

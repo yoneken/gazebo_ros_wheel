@@ -16,9 +16,6 @@ public:
 	void read(ros::Time, ros::Duration);
 	void write(ros::Time, ros::Duration);
 
-	bool setup(void);
-	void shutdown(void);
-
 	hardware_interface::JointStateInterface jnt_state_interface;
 	hardware_interface::EffortJointInterface jnt_eff_interface;
 	double pos_[3], vel_[3], eff_[3], cmd_[3];
@@ -28,9 +25,10 @@ protected:
 	//static const double RAD_WHEEL;
 
 	ros::NodeHandle root_nh_;
-	ros::Publisher duty_cycle_pub_;
-	ros::Subscriber state_sub_;
+	ros::Publisher duty_l_pub_, duty_r_pub_;
+	ros::Subscriber sensor_l_sub_, sensor_r_sub_;
 	double tachometer_[2];
 
-	void stateCallback(const vesc_msgs::VescStateStamped::ConstPtr& state);
+	void sensor_l_Callback(const vesc_msgs::VescStateStamped::ConstPtr& state);
+	void sensor_r_Callback(const vesc_msgs::VescStateStamped::ConstPtr& state);
 };
