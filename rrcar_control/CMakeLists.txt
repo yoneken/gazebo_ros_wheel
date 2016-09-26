@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   controller_manager
   vesc_msgs
   std_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -131,14 +132,18 @@ include_directories(
 # add_dependencies(rrcar_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(rrcar_control_node src/base_driver.cpp src/TwoWheeled.cpp)
+add_executable(rrcar_driver src/base_driver.cpp src/TwoWheeled.cpp)
+add_executable(rrcar_control src/base_controller.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(rrcar_control_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(rrcar_control_node
+target_link_libraries(rrcar_driver
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(rrcar_control
   ${catkin_LIBRARIES}
 )
 
@@ -152,12 +157,12 @@ target_link_libraries(rrcar_control_node
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 # install(PROGRAMS
-#   scripts/my_python_script
+#   scripts/base_control.py
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS rrcar_control_node
+install(TARGETS rrcar_driver rrcar_control
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

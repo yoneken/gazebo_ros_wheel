@@ -13,4 +13,6 @@
 		<remap from="/joint_states" to="/base/joint_states" />
 	</node>
 
+	<node name="base_controller" pkg="rrcar_control" type="rrcar_control" ns="/base"/>
+
 </launch>
