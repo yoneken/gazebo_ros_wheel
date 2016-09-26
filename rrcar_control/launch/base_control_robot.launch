@@ -14,14 +14,15 @@
 	</node>
 
 	<node name="base_controller" pkg="rrcar_control" type="rrcar_control" ns="/base"/>
+	<node name="base_driver" pkg="rrcar_control" type="rrcar_driver" ns="/base"/>
 
-	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/wheel_left">
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/base/wheel_left">
 		<arg name="node_name" value="vesc_wheel_l"/>
-		<arg name="port" value="/dev/ttyWheelL"/>
+		<arg name="port" value="/dev/ttyACM0"/>
 	</include>
 
-	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/wheel_right>
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/base/wheel_right">
 		<arg name="node_name" value="vesc_wheel_r"/>
-		<arg name="port" value="/dev/ttyWheelR"/>
+		<arg name="port" value="/dev/ttyACM1"/>
 	</include>
 </launch>
