@@ -82,9 +82,10 @@ int main(int argc, char *argv[])
 		publish_odom_topic();
 
 		// command each motor
-		std_msgs::Float64 cmd_l, cmd_r;
-		cmd_l.data = cmd_vx - cmd_yaw;
-		cmd_r.data = -(cmd_vx + cmd_yaw);
+		std_msgs::Float64::Ptr cmd_l(new std_msgs::Float64);
+		std_msgs::Float64::Ptr cmd_r(new std_msgs::Float64);
+		cmd_l->data = cmd_vx - cmd_yaw;
+		cmd_r->data = -(cmd_vx + cmd_yaw);
 		pub_l_wheel.publish(cmd_l);
 		pub_r_wheel.publish(cmd_r);
 
