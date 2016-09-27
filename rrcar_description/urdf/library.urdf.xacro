@@ -3,6 +3,6 @@
 	<!-- General -->
 	<xacro:include filename="$(find rrcar_description)/urdf/common_properties.urdf.xacro" />
 	<!-- Base -->
-	<xacro:include filename="$(find rrcar_description)/urdf/base.urdf.xacro" />
+	<xacro:include filename="$(find rrcar_description)/urdf/rrcar.urdf.xacro" />
 	<!-- Sensors -->
 </robot>

@@ -47,7 +47,7 @@ void publish_odom_topic(void)
 
 int main(int argc, char *argv[])
 {
-	ros::init(argc, argv, "BaseController");
+	ros::init(argc, argv, "rrcar_controller");
 	ros::NodeHandle nh;
 
 	// load parameters

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--
+	- Base						: rrcar
+		Camera					: 
+		Depth Sensor		: 
+-->
+<robot name="rrcar" xmlns:xacro="http://ros.org/wiki.xacro">
+	<xacro:include filename="$(find rrcar_description)/urdf/library.urdf.xacro" />
+</robot>

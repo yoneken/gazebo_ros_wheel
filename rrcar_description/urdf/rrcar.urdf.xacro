@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="base">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rrcar">
 
 	<xacro:property name="wheel_radius" value="0.05" />
 	<xacro:property name="wheel_width" value="0.05" />
@@ -156,6 +156,6 @@
 		</inertial>
 	</link>
 
-  <xacro:include filename="$(find rrcar_description)/urdf/base.gazebo" />
+  <xacro:include filename="$(find rrcar_description)/urdf/rrcar.gazebo" />
 
 </robot>

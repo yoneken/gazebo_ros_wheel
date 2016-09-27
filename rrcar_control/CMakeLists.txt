@@ -132,8 +132,8 @@ include_directories(
 # add_dependencies(rrcar_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(rrcar_driver src/base_driver_node.cpp src/TwoWheeled.cpp)
-add_executable(rrcar_control src/base_controller.cpp)
+add_executable(rrcar_driver src/rrcar_driver_node.cpp src/TwoWheeled.cpp)
+add_executable(rrcar_control src/rrcar_controller.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -157,7 +157,7 @@ target_link_libraries(rrcar_control
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 # install(PROGRAMS
-#   scripts/base_control.py
+#   scripts/rrcar_control.py
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 

@@ -6,14 +6,14 @@
 		<arg name="gui" value="true"/>
 		<arg name="headless" value="false"/>
 		<arg name="debug" value="false"/>
-		<arg name="world_name" value="$(find racecar_gazebo)/worlds/racecar.world"/>
+		<arg name="world_name" value="$(find rrcar_description)/worlds/empty.world"/>
 	</include>
 
-	<param name="robot_description" command="$(find xacro)/xacro '$(find rrcar_description)/robots/base.urdf.xacro'"/>
+	<param name="robot_description" command="$(find xacro)/xacro '$(find rrcar_description)/robots/rrcar.urdf.xacro'"/>
 
 	<!-- push robot_description to factory and spawn robot in gazebo -->
-	<node name="base_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model base -z 1" />
+	<node name="rrcar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model rrcar -z 1" />
 
-	<node name="base_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+	<node name="rrcar_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
 </launch>
