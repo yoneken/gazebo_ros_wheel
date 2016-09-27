@@ -4,6 +4,9 @@
 #include <hardware_interface/robot_hw.h>
 #include <vesc_msgs/VescStateStamped.h>
 
+namespace rrcar_control
+{
+
 class TwoWheeled : public hardware_interface::RobotHW
 {
 public:
@@ -32,3 +35,6 @@ protected:
 	void sensor_l_Callback(const vesc_msgs::VescStateStamped::ConstPtr& state);
 	void sensor_r_Callback(const vesc_msgs::VescStateStamped::ConstPtr& state);
 };
+
+} // namespace rrcar_control
+

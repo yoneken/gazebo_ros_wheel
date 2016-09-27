@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   vesc_msgs
   std_msgs
   tf
+  nodelet
+  pluginlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -105,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES rrcar_control
-  CATKIN_DEPENDS ros_control ros_controllers hardware_interface transmission_interface controller_manager vesc_msgs
+  CATKIN_DEPENDS ros_control ros_controllers hardware_interface transmission_interface controller_manager vesc_msgs nodelet
 #  DEPENDS system_lib
 )
 
@@ -122,9 +124,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(rrcar_control
-#   src/${PROJECT_NAME}/rrcar_control.cpp
-# )
+add_library(rrcar_driver_nodelet src/rrcar_driver_nodelet.cpp src/TwoWheeled.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -141,6 +141,9 @@ add_executable(rrcar_control src/rrcar_controller.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(rrcar_driver
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(rrcar_driver_nodelet
   ${catkin_LIBRARIES}
 )
 target_link_libraries(rrcar_control
@@ -167,6 +170,11 @@ install(TARGETS rrcar_driver rrcar_control
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+install(TARGETS rrcar_driver_nodelet
+#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 install(DIRECTORY include/${PROJECT_NAME}/
@@ -178,6 +186,10 @@ install(DIRECTORY include/${PROJECT_NAME}/
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(DIRECTORY
   config launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+install(FILES
+  rrcar_control_nodelet.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

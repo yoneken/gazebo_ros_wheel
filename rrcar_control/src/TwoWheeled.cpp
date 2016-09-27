@@ -1,8 +1,8 @@
 #include <rrcar_control/TwoWheeled.h>
 #include <std_msgs/Float64.h>
 
-//const unsigned short TwoWheeled::NUM_MOTOR_POLES = 84;
-//const double TwoWheeled::RAD_WHEEL = 5.0;
+namespace rrcar_control
+{
 
 //TwoWheeled::TwoWheeled(const ros::NodeHandle& nh)
 TwoWheeled::TwoWheeled(ros::NodeHandle nh)
@@ -68,4 +68,6 @@ void TwoWheeled::sensor_r_Callback(const vesc_msgs::VescStateStamped::ConstPtr& 
 {
 	tachometer_[1] = state->state.distance_traveled;
 }
+
+} // namespace rrcar_control
 

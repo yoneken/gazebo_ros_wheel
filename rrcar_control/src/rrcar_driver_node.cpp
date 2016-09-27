@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 	ros::init(argc, argv, "rrcar_control");
 	ros::NodeHandle nh;
 
-	TwoWheeled rrcar(nh);
+	rrcar_control::TwoWheeled rrcar(nh);
 	controller_manager::ControllerManager cm(&rrcar, nh);
 
 	ros::Rate rate(1.0 / rrcar.getPeriod().toSec());

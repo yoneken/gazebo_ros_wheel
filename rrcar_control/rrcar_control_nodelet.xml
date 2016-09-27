@@ -1,0 +1,5 @@
+<library path="lib/librrcar_driver_nodelet">
+  <class type="rrcar_control::RRCarDriverNodelet" base_class_type="nodelet::Nodelet">
+    <description>RRCar driver nodelet.</description>
+  </class>
+</library>
