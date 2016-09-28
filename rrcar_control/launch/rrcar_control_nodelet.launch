@@ -1,7 +1,6 @@
 <!-- -*- mode: XML -*- -->
 <launch>
 
-	<arg name="node_name" default="rrcar_driver_nodelet" />
 	<arg name="manager" default="vesc_nodelet_manager" />
 
 	<!-- Load joint controller configurations from YAML file to parameter server -->
@@ -9,26 +8,28 @@
 
 	<!-- load controllers -->
 	<node name="rrcar_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-		output="screen" ns="/rrcar" args="wheel_left/effort_controller wheel_right/effort_controller joint_state_controller"/>
+		output="screen" ns="rrcar" args="wheel_left/effort_controller wheel_right/effort_controller joint_state_controller"/>
 
-	<node name="rrcar_controller" pkg="rrcar_control" type="rrcar_control" ns="/rrcar"/>
+	<node name="rrcar_controller" pkg="rrcar_control" type="rrcar_control" ns="rrcar"/>
 
-	<node name="$(arg manager)" pkg="nodelet" type="nodelet" args="manager" output="screen" ns="/rrcar" />
+	<node name="$(arg manager)" pkg="nodelet" type="nodelet" args="manager" output="screen" ns="rrcar" />
 
 	<!-- load VESC driver -->
-	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/rrcar/wheel_left">
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="rrcar/wheel_left">
 		<arg name="node_name" value="vesc_wheel_l"/>
 		<arg name="start_manager" value="false"/>
 		<arg name="manager" value="/rrcar/$(arg manager)"/>
 		<arg name="port" value="/dev/ttyACM0"/>
 	</include>
 
-	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/rrcar/wheel_right">
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="rrcar/wheel_right">
 		<arg name="node_name" value="vesc_wheel_r"/>
 		<arg name="start_manager" value="false"/>
 		<arg name="manager" value="/rrcar/$(arg manager)"/>
 		<arg name="port" value="/dev/ttyACM1"/>
 	</include>
 
-	<node name="$(arg node_name)" pkg="nodelet" type="nodelet" args="load rrcar_control::RRCarDriverNodelet $(arg manager)" output="screen" ns="/rrcar" />
+	<node name="rrcar_driver_nodelet" pkg="nodelet" type="nodelet" args="load rrcar_control::RRCarDriverNodelet $(arg manager)" output="screen" ns="rrcar">
+		<arg name="node_name" value="vesc_wheel_r"/>
+	</node>
 </launch>

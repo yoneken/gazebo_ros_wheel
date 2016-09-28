@@ -1,4 +1,4 @@
 <!-- -*- mode: XML -*- -->
 <launch>
-	<include file="$(find teleop_twist_joy)/launch/teleop.launch" ns="/rrcar" />
+	<include file="$(find teleop_twist_joy)/launch/teleop.launch" ns="rrcar" />
 </launch>

@@ -6,18 +6,18 @@
 
 	<!-- load the controllers -->
 	<node name="rrcar_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-		output="screen" ns="/rrcar" args="wheel_left/effort_controller wheel_right/effort_controller joint_state_controller"/>
+		output="screen" ns="rrcar" args="wheel_left/effort_controller wheel_right/effort_controller joint_state_controller"/>
 
 
-	<node name="rrcar_controller" pkg="rrcar_control" type="rrcar_control" ns="/rrcar"/>
-	<node name="rrcar_driver" pkg="rrcar_control" type="rrcar_driver" ns="/rrcar"/>
+	<node name="rrcar_controller" pkg="rrcar_control" type="rrcar_control" ns="rrcar"/>
+	<node name="rrcar_driver" pkg="rrcar_control" type="rrcar_driver" ns="rrcar"/>
 
-	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/rrcar/wheel_left">
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="rrcar/wheel_left">
 		<arg name="node_name" value="vesc_wheel_l"/>
 		<arg name="port" value="/dev/ttyACM0"/>
 	</include>
 
-	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="/rrcar/wheel_right">
+	<include file="$(find vesc_driver)/launch/vesc_driver_nodelet.launch" ns="rrcar/wheel_right">
 		<arg name="node_name" value="vesc_wheel_r"/>
 		<arg name="port" value="/dev/ttyACM1"/>
 	</include>

@@ -1,4 +1,4 @@
 <!-- -*- mode: XML -*- -->
 <launch>
-	<node name="teleop_key" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" ns="/rrcar"/>
+	<node name="teleop_key" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" ns="rrcar"/>
 </launch>

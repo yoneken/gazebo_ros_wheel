@@ -2,6 +2,7 @@
 #include <tf/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/Twist.h>
+#include <sensor_msgs/JointState.h>
 #include <std_msgs/Float64.h>
 #include <cmath>
 
@@ -17,10 +18,14 @@ static double duty_left = 0.0, duty_right = 0.0;
 static long erpml = 0, erpmr = 0;
 static double cmd_vx = 0.0, cmd_yaw = 0.0;
 
-void cmd_callback(const geometry_msgs::Twist &msg)
+void cmd_callback(const geometry_msgs::Twist::ConstPtr &msg)
 {
-	cmd_vx = msg.linear.x;
-	cmd_yaw = msg.angular.z;
+	cmd_vx = msg->linear.x;
+	cmd_yaw = msg->angular.z;
+}
+
+void js_callback(const sensor_msgs::JointState::ConstPtr &msg)
+{
 }
 
 void update_odometry(double dt)
@@ -52,11 +57,12 @@ int main(int argc, char *argv[])
 
 	// load parameters
 	std::string odom_topic_name, cmd_topic_name;
-	std::string l_wheel_topic_name, r_wheel_topic_name;
+	std::string l_wheel_topic_name, r_wheel_topic_name, joint_states_topic_name;
 	nh.param<std::string>("odom_topic", odom_topic_name, "odom");
 	nh.param<std::string>("cmd_topic", cmd_topic_name, "cmd_vel");
 	nh.param<std::string>("l_wheel_topic", l_wheel_topic_name, "wheel_left/effort_controller/command");
 	nh.param<std::string>("r_wheel_topic", r_wheel_topic_name, "wheel_right/effort_controller/command");
+	nh.param<std::string>("joint_states_topic", joint_states_topic_name, "joint_states");
 
 	nh.param("control_hz", CONTROL_HZ, 50);
 	nh.param("track_width", TRACK_WIDTH, 0.22);
@@ -65,9 +71,10 @@ int main(int argc, char *argv[])
 
 	tf::TransformBroadcaster odom_broadcaster;
 	ros::Publisher pub_odom = nh.advertise<nav_msgs::Odometry>(odom_topic_name, 10);
-	ros::Subscriber sub = nh.subscribe(cmd_topic_name, 10, cmd_callback);
+	ros::Subscriber sub_cmd = nh.subscribe(cmd_topic_name, 10, cmd_callback);
 	ros::Publisher pub_l_wheel = nh.advertise<std_msgs::Float64>(l_wheel_topic_name, 10);
 	ros::Publisher pub_r_wheel = nh.advertise<std_msgs::Float64>(r_wheel_topic_name, 10);
+	ros::Subscriber sub_js = nh.subscribe(joint_states_topic_name, 10, js_callback);
 
 	ros::Time current_time;
 	ros::Time last_time = ros::Time::now();

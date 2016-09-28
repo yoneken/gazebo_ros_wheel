@@ -1,3 +1,4 @@
+<!-- -*- mode: XML -*- -->
 <launch>
 
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -14,12 +15,12 @@
 	<!-- push robot_description to factory and spawn robot in gazebo -->
 	<node name="rrcar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model rrcar -z 1" />
 
-	<node name="rrcar_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-	<!-- convert joint states to TF transforms for rviz, etc -->
+	<!-- joint_state_publisher reads the robot_description parameter, finds all of the non-fixed joints and publishes a JointState message with all those joints defined. -->
+	<!-- node name="rrcar_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ns="rrcar" / -->
+
+	<!-- robot_state_publisher uses the URDF specified by the parameter robot_description and the joint positions from the topic joint_states to calculate the forward kinematics of the robot and publish the results via tf. -->
 	<node name="rrcar_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-		respawn="false" output="screen">
-		<remap from="/joint_states" to="/rrcar/joint_states" />
-	</node>
+		respawn="false" output="screen" ns="rrcar" />
 
 
 </launch>

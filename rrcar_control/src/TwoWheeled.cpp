@@ -45,7 +45,7 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 
 void TwoWheeled::read(ros::Time time, ros::Duration period)
 {
-	std::cout << "read" << std::endl;
+	//std::cout << "read" << std::endl;
 	pos_[0] = tachometer_[0];
 	pos_[1] = tachometer_[1];
 }
