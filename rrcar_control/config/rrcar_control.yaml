@@ -5,11 +5,11 @@ rrcar:
     publish_rate: 50  
 
   # Effort Controllers ---------------------------------------
-  wheel_left_effort_controller:
+  wheel_left/effort_controller:
     type: effort_controllers/JointEffortController
     joint: wheel_left_joint
     pid: {p: 100.0, i: 0.01, d: 10.0}
-  wheel_right_effort_controller:
+  wheel_right/effort_controller:
     type: effort_controllers/JointEffortController
     joint: wheel_right_joint
     pid: {p: 100.0, i: 0.01, d: 10.0}

@@ -1,5 +1,6 @@
 #include <rrcar_control/TwoWheeled.h>
 #include <std_msgs/Float64.h>
+#include <iostream>
 
 namespace rrcar_control
 {
@@ -44,6 +45,7 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 
 void TwoWheeled::read(ros::Time time, ros::Duration period)
 {
+	std::cout << "read" << std::endl;
 	pos_[0] = tachometer_[0];
 	pos_[1] = tachometer_[1];
 }

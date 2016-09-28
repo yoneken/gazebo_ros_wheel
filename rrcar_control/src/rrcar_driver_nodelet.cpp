@@ -30,11 +30,9 @@ void RRCarDriverNodelet::onInit()
 	NODELET_DEBUG("Initializing RRCar driver nodelet");
 	ros::NodeHandle nh = getNodeHandle();
 
-	//rrcar.reset(new TwoWheeled(nh));
-	//cm.reset(new controller_manager::ControllerManager(rrcar.get(), nh));
-	rrcar = boost::shared_ptr<TwoWheeled>(new TwoWheeled(nh));
-	cm = boost::shared_ptr<controller_manager::ControllerManager>(new controller_manager::ControllerManager(rrcar.get(), nh));
-	timer_ = nh.createTimer(ros::Duration(1.0/50.0), &RRCarDriverNodelet::timer_Callback, this);
+	rrcar.reset(new TwoWheeled(nh));
+	cm.reset(new controller_manager::ControllerManager(rrcar.get(), nh));
+	timer_ = nh.createTimer(rrcar->getPeriod(), &RRCarDriverNodelet::timer_Callback, this);
 }
 
 void RRCarDriverNodelet::timer_Callback(const ros::TimerEvent& event)

@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
 	std::string l_wheel_topic_name, r_wheel_topic_name;
 	nh.param<std::string>("odom_topic", odom_topic_name, "odom");
 	nh.param<std::string>("cmd_topic", cmd_topic_name, "cmd_vel");
-	nh.param<std::string>("l_wheel_topic", l_wheel_topic_name, "wheel_left_effort_controller/command");
-	nh.param<std::string>("r_wheel_topic", r_wheel_topic_name, "wheel_right_effort_controller/command");
+	nh.param<std::string>("l_wheel_topic", l_wheel_topic_name, "wheel_left/effort_controller/command");
+	nh.param<std::string>("r_wheel_topic", r_wheel_topic_name, "wheel_right/effort_controller/command");
 
 	nh.param("control_hz", CONTROL_HZ, 50);
 	nh.param("track_width", TRACK_WIDTH, 0.22);
