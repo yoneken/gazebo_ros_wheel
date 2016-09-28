@@ -8,8 +8,8 @@
 	<rosparam file="$(find rrcar_control)/config/rrcar_control.yaml" command="load"/>
 
 	<!-- load controllers -->
-	<!-- node name="rrcar_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-		output="screen" ns="/rrcar" args="wheel_left/effort_controller wheel_right/effort_controller joint_state_controller"/ -->
+	<node name="rrcar_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+		output="screen" ns="/rrcar" args="wheel_left/effort_controller wheel_right/effort_controller joint_state_controller"/>
 
 	<node name="rrcar_controller" pkg="rrcar_control" type="rrcar_control" ns="/rrcar"/>
 
