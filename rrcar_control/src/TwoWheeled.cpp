@@ -1,5 +1,6 @@
 #include <rrcar_control/TwoWheeled.h>
 #include <std_msgs/Float64.h>
+#include <cmath>
 #include <iostream>
 
 namespace rrcar_control
@@ -17,6 +18,7 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 	root_nh_.param<std::string>("r_wheel_drv_topic", r_wheel_drv_topic_name, "wheel_right/commands/motor/duty_cycle");
 	root_nh_.param<std::string>("l_wheel_sensor_topic", l_wheel_sensor_topic_name, "wheel_left/sensors/core");
 	root_nh_.param<std::string>("r_wheel_sensor_topic", r_wheel_sensor_topic_name, "wheel_right/sensors/core");
+	root_nh_.param("num_motor_poles", NUM_MOTOR_POLES, 83);
 
 	// init pub/sub
 	duty_l_pub_ = root_nh_.advertise<std_msgs::Float64>(l_wheel_drv_topic_name, 10);
@@ -45,9 +47,8 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 
 void TwoWheeled::read(ros::Time time, ros::Duration period)
 {
-	//std::cout << "read" << std::endl;
-	pos_[0] = tachometer_[0];
-	pos_[1] = tachometer_[1];
+	pos_[0] = tachometer_[0] / NUM_MOTOR_POLES * 2 * M_PI;
+	pos_[1] = tachometer_[1] / NUM_MOTOR_POLES * 2 * M_PI;
 }
 
 void TwoWheeled::write(ros::Time time, ros::Duration period)

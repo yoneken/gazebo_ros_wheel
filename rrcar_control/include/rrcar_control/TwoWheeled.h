@@ -24,8 +24,7 @@ public:
 	double pos_[3], vel_[3], eff_[3], cmd_[3];
 
 protected:
-	//static const unsigned short NUM_MOTOR_POLES;
-	//static const double RAD_WHEEL;
+	int NUM_MOTOR_POLES;
 
 	ros::NodeHandle root_nh_;
 	ros::Publisher duty_l_pub_, duty_r_pub_;

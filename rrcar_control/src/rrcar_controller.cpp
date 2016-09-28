@@ -9,14 +9,16 @@
 static int CONTROL_HZ = 50;
 static double TRACK_WIDTH = 0.22;
 static double WHEEL_RADIUS = 0.05;
-static int MOTOR_POLES = 83;
 
 static double vx_= 0.0, vy_= 0.0, omega_= 0.0;
 static double x_= 0.0, y_= 0.0, theta_= 0.0;
 static double dx_= 0.0, dy_= 0.0, dtheta_= 0.0;
 static double duty_left = 0.0, duty_right = 0.0;
-static long erpml = 0, erpmr = 0;
+static double rad_left = 0.0, rad_right = 0.0;
 static double cmd_vx = 0.0, cmd_yaw = 0.0;
+
+static const int joint_num = 2;
+static const std::string joint_names[joint_num] = {"wheel_left_joint", "wheel_right_joint"};
 
 void cmd_callback(const geometry_msgs::Twist::ConstPtr &msg)
 {
@@ -26,13 +28,26 @@ void cmd_callback(const geometry_msgs::Twist::ConstPtr &msg)
 
 void js_callback(const sensor_msgs::JointState::ConstPtr &msg)
 {
+	// search joint_name from message
+	int indices[joint_num];
+	for(int i=0;i<joint_num;i++){
+		for(int j=0;j<joint_num;j++){
+			if(joint_names[i] == msg->name[j]){
+				indices[i] = j;
+				break;
+			}
+		}
+	}
+
+	rad_left = msg->position[indices[0]];
+	rad_left = msg->position[indices[1]];
 }
 
 void update_odometry(double dt)
 {
 	double v, vl, vr;
-	vl = WHEEL_RADIUS * erpml / MOTOR_POLES * 2. * M_PI;
-	vr = WHEEL_RADIUS * erpmr / MOTOR_POLES * 2. * M_PI;
+	vl = WHEEL_RADIUS * rad_left;
+	vr = WHEEL_RADIUS * rad_right;
 
 	omega_ = (vr - vl) / TRACK_WIDTH;
 	v = (vr + vl) / 2.;
@@ -67,7 +82,6 @@ int main(int argc, char *argv[])
 	nh.param("control_hz", CONTROL_HZ, 50);
 	nh.param("track_width", TRACK_WIDTH, 0.22);
 	nh.param("wheel_radius", WHEEL_RADIUS, 0.05);
-	nh.param("motor_poles", MOTOR_POLES, 83);
 
 	tf::TransformBroadcaster odom_broadcaster;
 	ros::Publisher pub_odom = nh.advertise<nav_msgs::Odometry>(odom_topic_name, 10);
