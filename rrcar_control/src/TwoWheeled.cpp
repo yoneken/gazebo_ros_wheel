@@ -47,8 +47,8 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 
 void TwoWheeled::read(ros::Time time, ros::Duration period)
 {
-	pos_[0] = tachometer_[0] / NUM_MOTOR_POLES * 2 * M_PI;
-	pos_[1] = tachometer_[1] / NUM_MOTOR_POLES * 2 * M_PI;
+	pos_[0] = tachometer_[0] / NUM_MOTOR_POLES * 2.0 * M_PI;
+	pos_[1] = tachometer_[1] / NUM_MOTOR_POLES * 2.0 * M_PI;
 }
 
 void TwoWheeled::write(ros::Time time, ros::Duration period)
@@ -64,12 +64,12 @@ void TwoWheeled::write(ros::Time time, ros::Duration period)
 
 void TwoWheeled::sensor_l_Callback(const vesc_msgs::VescStateStamped::ConstPtr& state)
 {
-	tachometer_[0] = state->state.distance_traveled;
+	tachometer_[0] = state->state.displacement;
 }
 
 void TwoWheeled::sensor_r_Callback(const vesc_msgs::VescStateStamped::ConstPtr& state)
 {
-	tachometer_[1] = state->state.distance_traveled;
+	tachometer_[1] = state->state.displacement;
 }
 
 } // namespace rrcar_control
