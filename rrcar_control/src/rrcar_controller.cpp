@@ -67,7 +67,6 @@ void update_odometry(void)
 
 		boost::mutex::scoped_lock lock(mtx);
 		dtheta_ = (vr - vl) / TRACK_WIDTH;
-		//std::cout << theta_ << " " << dtheta_ << std::endl;
 
 		v = (vr + vl) / 2.;
 		dx_ = v * cos(theta_ + dtheta_ / 2.);
@@ -77,7 +76,6 @@ void update_odometry(void)
 		x_ -= dx_;
 		y_ -= dy_;
 		theta_ -= dtheta_;
-		//std::cout << x_ << " " << y_ << std::endl;
 
 		l_rad_left = rad_left;
 		l_rad_right = rad_right;
@@ -90,10 +88,6 @@ void publish_odom_tf(const ros::Time current_time)
 	tf::Quaternion q;
 	q.setRPY(0, 0, theta_);
 	tf::Transform transform(q, tf::Vector3(x_, y_, 0.0) );
-	//tf::Transform transform;
-	//transform.setOrigin( tf::Vector3(0.0, 0.0, 0.0) );
-	//transform.setRotation(q);
-	//transform.setOrigin( tf::Vector3(x_, y_, 0.0) );
 	odom_broadcaster->sendTransform(tf::StampedTransform(transform, current_time, odom_frame_name, base_frame_name));
 }
 
@@ -133,6 +127,7 @@ int main(int argc, char *argv[])
 
 	// load parameters
 	std::string odom_topic_name, cmd_topic_name;
+	bool use_odom_tf;
 	std::string l_wheel_topic_name, r_wheel_topic_name, joint_states_topic_name;
 	nh.param<std::string>("odom_topic", odom_topic_name, "odom");
 	nh.param<std::string>("cmd_topic", cmd_topic_name, "cmd_vel");
@@ -146,6 +141,8 @@ int main(int argc, char *argv[])
 	nh.param("control_hz", CONTROL_HZ, 50);
 	nh.param("track_width", TRACK_WIDTH, 0.22);
 	nh.param("wheel_radius", WHEEL_RADIUS, 0.05);
+
+	nh.param("use_odom_tf", use_odom_tf, true);
 
 	pub_odom = nh.advertise<nav_msgs::Odometry>(odom_topic_name, 10);
 	ros::Subscriber sub_cmd = nh.subscribe(cmd_topic_name, 10, cmd_callback);
@@ -164,7 +161,7 @@ int main(int argc, char *argv[])
 		double dt = (current_time - last_time).toSec();
 
 		update_odometry();
-		publish_odom_tf(current_time);
+		if(use_odom_tf) publish_odom_tf(current_time);
 		publish_odom_topic(current_time, dt);
 
 		// command each motor
