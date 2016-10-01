@@ -6,13 +6,15 @@
 #include <std_msgs/Float64.h>
 #include <cmath>
 #include <boost/thread.hpp>
+#include <iostream>
+
+const static double TIME_EPSILON = 0.0001;
 
 static int CONTROL_HZ = 50;
 static double TRACK_WIDTH = 0.22;
 static double WHEEL_RADIUS = 0.05;
 
 static ros::Time last_time;
-static double vx_= 0.0, vy_= 0.0, omega_= 0.0, l_omega = 0.0;
 static double x_= 0.0, y_= 0.0, theta_= 0.0;
 static double duty_left = 0.0, duty_right = 0.0;
 static double rad_left = 0.0, rad_right = 0.0, l_rad_left = 0.0, l_rad_right = 0.0;
@@ -23,7 +25,6 @@ static const std::string joint_names[joint_num] = {"wheel_left_joint", "wheel_ri
 
 std::string odom_frame_name, base_frame_name;
 tf::TransformBroadcaster *odom_broadcaster;
-nav_msgs::Odometry odom;
 ros::Publisher pub_odom;
 
 boost::mutex mtx;
@@ -59,26 +60,27 @@ void update_odometry(void)
 	d_rad_right = rad_right - l_rad_right;
 
 	if(d_rad_left != 0.0 && d_rad_right != 0.0){
-		double v, vl, vr, l_omega;
+		double v, vl, vr;
 		double dx_, dy_, dtheta_;
 		vl = WHEEL_RADIUS * -d_rad_left;
 		vr = WHEEL_RADIUS * d_rad_right;
 
-		omega_ = (vr - vl) / TRACK_WIDTH;
-		dtheta_ = omega_ - l_omega;
+		boost::mutex::scoped_lock lock(mtx);
+		dtheta_ = (vr - vl) / TRACK_WIDTH;
+		//std::cout << theta_ << " " << dtheta_ << std::endl;
 
 		v = (vr + vl) / 2.;
-		dx_ = v * cos(dtheta_);
-		dy_ = v * sin(dtheta_);
+		dx_ = v * cos(theta_ + dtheta_ / 2.);
+		dy_ = v * sin(theta_ + dtheta_ / 2.);
 
-		x_ += dx_;
-		y_ += dy_;
-		theta_ += dtheta_;
+		// As odom -> base, the sign is minus.
+		x_ -= dx_;
+		y_ -= dy_;
+		theta_ -= dtheta_;
+		//std::cout << x_ << " " << y_ << std::endl;
 
-		boost::mutex::scoped_lock lock(mtx);
 		l_rad_left = rad_left;
 		l_rad_right = rad_right;
-		l_omega = omega_;
 	}
 }
 
@@ -88,13 +90,20 @@ void publish_odom_tf(const ros::Time current_time)
 	tf::Quaternion q;
 	q.setRPY(0, 0, theta_);
 	tf::Transform transform(q, tf::Vector3(x_, y_, 0.0) );
-	//transform.setOrigin( tf::Vector3(x_, y_, 0.0) );
+	//tf::Transform transform;
+	//transform.setOrigin( tf::Vector3(0.0, 0.0, 0.0) );
 	//transform.setRotation(q);
-	odom_broadcaster->sendTransform(tf::StampedTransform(transform, current_time, base_frame_name, odom_frame_name));
+	//transform.setOrigin( tf::Vector3(x_, y_, 0.0) );
+	odom_broadcaster->sendTransform(tf::StampedTransform(transform, current_time, odom_frame_name, base_frame_name));
 }
 
 void publish_odom_topic(const ros::Time current_time, const double dt)
 {
+	if(dt < TIME_EPSILON){
+		return;
+	}
+
+	nav_msgs::Odometry odom;
 	odom.header.stamp = current_time;
 	odom.header.frame_id = odom_frame_name;
 	odom.child_frame_id = base_frame_name;
