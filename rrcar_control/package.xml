@@ -61,6 +61,7 @@
   <run_depend>tf</run_depend>
   <run_depend>nodelet</run_depend>
   <run_depend>pluginlib</run_depend>
+  <run_depend>vesc_driver</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
