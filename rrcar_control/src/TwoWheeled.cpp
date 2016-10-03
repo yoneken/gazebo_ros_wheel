@@ -18,7 +18,7 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 	root_nh_.param<std::string>("r_wheel_drv_topic", r_wheel_drv_topic_name, "wheel_right/commands/motor/duty_cycle");
 	root_nh_.param<std::string>("l_wheel_sensor_topic", l_wheel_sensor_topic_name, "wheel_left/sensors/core");
 	root_nh_.param<std::string>("r_wheel_sensor_topic", r_wheel_sensor_topic_name, "wheel_right/sensors/core");
-	root_nh_.param("num_motor_poles", NUM_MOTOR_POLES, 83);
+	root_nh_.param("num_motor_poles", NUM_MOTOR_POLES, 58);
 
 	// init pub/sub
 	duty_l_pub_ = root_nh_.advertise<std_msgs::Float64>(l_wheel_drv_topic_name, 10);
