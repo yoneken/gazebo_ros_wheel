@@ -131,8 +131,8 @@ int main(int argc, char *argv[])
 	std::string l_wheel_topic_name, r_wheel_topic_name, joint_states_topic_name;
 	nh.param<std::string>("odom_topic", odom_topic_name, "odom");
 	nh.param<std::string>("cmd_topic", cmd_topic_name, "cmd_vel");
-	nh.param<std::string>("l_wheel_topic", l_wheel_topic_name, "wheel_left/effort_controller/command");
-	nh.param<std::string>("r_wheel_topic", r_wheel_topic_name, "wheel_right/effort_controller/command");
+	nh.param<std::string>("l_wheel_topic", l_wheel_topic_name, "wheel_left/velocity_controller/command");
+	nh.param<std::string>("r_wheel_topic", r_wheel_topic_name, "wheel_right/velocity_controller/command");
 	nh.param<std::string>("joint_states_topic", joint_states_topic_name, "joint_states");
 
 	nh.param<std::string>("odom_frame_name", odom_frame_name, "odom");

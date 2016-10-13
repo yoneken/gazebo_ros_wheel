@@ -7,8 +7,8 @@
 
 	<arg name="odom_topic" default="odom" />
 	<arg name="cmd_topic" default="cmd_vel" />
-	<arg name="l_wheel_topic" default="wheel_left/effort_controller/command" />
-	<arg name="r_wheel_topic" default="wheel_right/effort_controller/command" />
+	<arg name="l_wheel_topic" default="wheel_left/velocity_controller/command" />
+	<arg name="r_wheel_topic" default="wheel_right/velocity_controller/command" />
 	<arg name="joint_states_topic" default="joint_states" />
 
 	<arg name="odom_frame_name" default="odom" />
@@ -21,7 +21,7 @@
 
 	<!-- load the controllers -->
 	<node name="rrcar_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-		output="screen" ns="rrcar" args="wheel_left/effort_controller wheel_right/effort_controller joint_state_controller"/>
+		output="screen" ns="rrcar" args="wheel_left/velocity_controller wheel_right/velocity_controller joint_state_controller"/>
 
 	<node name="rrcar_controller" pkg="rrcar_control" type="rrcar_control" ns="rrcar">
 		<param name="control_hz" value="$(arg control_hz)"/>

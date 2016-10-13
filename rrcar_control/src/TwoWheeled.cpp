@@ -35,14 +35,14 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 
 	registerInterface(&jnt_state_interface);
 
-	// connect and register joint_effort_interfaces
-	hardware_interface::JointHandle eff_handle0(jnt_state_interface.getHandle("wheel_left_joint"), &cmd_[0]);
-	jnt_eff_interface.registerHandle(eff_handle0);
+	// connect and register joint_velocity_interfaces
+	hardware_interface::JointHandle vel_handle0(jnt_state_interface.getHandle("wheel_left_joint"), &cmd_[0]);
+	jnt_vel_interface.registerHandle(vel_handle0);
 
-	hardware_interface::JointHandle eff_handle1(jnt_state_interface.getHandle("wheel_right_joint"), &cmd_[1]);
-	jnt_eff_interface.registerHandle(eff_handle1);
+	hardware_interface::JointHandle vel_handle1(jnt_state_interface.getHandle("wheel_right_joint"), &cmd_[1]);
+	jnt_vel_interface.registerHandle(vel_handle1);
 
-	registerInterface(&jnt_eff_interface);
+	registerInterface(&jnt_vel_interface);
 }
 
 void TwoWheeled::read(ros::Time time, ros::Duration period)

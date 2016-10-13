@@ -20,7 +20,7 @@ public:
 	void write(ros::Time, ros::Duration);
 
 	hardware_interface::JointStateInterface jnt_state_interface;
-	hardware_interface::EffortJointInterface jnt_eff_interface;
+	hardware_interface::VelocityJointInterface jnt_vel_interface;
 	double pos_[3], vel_[3], eff_[3], cmd_[3];
 
 protected:

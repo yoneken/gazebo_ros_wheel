@@ -6,12 +6,12 @@ rrcar:
 
   # Effort Controllers ---------------------------------------
   wheel_left:
-    effort_controller:
-      type: effort_controllers/JointEffortController
+    velocity_controller:
+      type: velocity_controllers/JointVelocityController
       joint: wheel_left_joint
-      pid: {p: 100.0, i: 0.01, d: 10.0}
+      pid: {p: 0.05, i: 0.0, d: 0.1}
   wheel_right:
-    effort_controller:
-      type: effort_controllers/JointEffortController
+    velocity_controller:
+      type: velocity_controllers/JointVelocityController
       joint: wheel_right_joint
-      pid: {p: 100.0, i: 0.01, d: 10.0}
+      pid: {p: 0.05, i: 0.0, d: 0.1}
