@@ -1,6 +1,4 @@
 #include <ros/ros.h>
-#include <std_msgs/Time.h>
-#include <std_msgs/Duration.h>
 #include <controller_manager/controller_manager.h>
 #include <rrcar_control/TwoWheeled.h>
 #include <nodelet/nodelet.h>
@@ -18,7 +16,6 @@ public:
 
 protected:
 	ros::Timer timer_;
-	ros::Time last_time_;
 
 	virtual void onInit(void);
 	void timer_Callback(const ros::TimerEvent& event);
@@ -35,23 +32,18 @@ void RRCarDriverNodelet::onInit()
 
 	rrcar.reset(new TwoWheeled(nh));
 	cm.reset(new controller_manager::ControllerManager(rrcar.get(), nh));
-	timer_ = nh.createTimer(rrcar->getPeriod()->data, &RRCarDriverNodelet::timer_Callback, this);
-
-	last_time_ = rrcar->getTime()->data;
+	timer_ = nh.createTimer(rrcar->getPeriod(), &RRCarDriverNodelet::timer_Callback, this);
 }
 
 void RRCarDriverNodelet::timer_Callback(const ros::TimerEvent& event)
 {
-	std_msgs::TimeConstPtr now = rrcar->getTime();
-	std_msgs::DurationPtr dt(new std_msgs::Duration);
-	dt->data = now->data - last_time_;
+	ros::Time now = rrcar->getTime();
+	ros::Duration dt = rrcar->getPeriod();
 
 	rrcar->read(now, dt);
-	cm->update(now->data, dt->data);
+	cm->update(now, dt);
 
 	rrcar->write(now, dt);
-
-	last_time_ = now->data;
 }
 
 } // namespace rrcar_control

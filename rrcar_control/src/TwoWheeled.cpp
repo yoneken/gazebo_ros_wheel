@@ -8,7 +8,7 @@ namespace rrcar_control
 
 //TwoWheeled::TwoWheeled(const ros::NodeHandle& nh)
 TwoWheeled::TwoWheeled(ros::NodeHandle nh)
-: pos_({0}), vel_({0}), eff_({0}), cmd_({0}), l_pos_({0}),
+: pos_({0}), vel_({0}), eff_({0}), cmd_({0}),
   root_nh_(nh), tachometer_({0.0})
 {
 	// load parameters
@@ -19,7 +19,6 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 	root_nh_.param<std::string>("l_wheel_sensor_topic", l_wheel_sensor_topic_name, "wheel_left/sensors/core");
 	root_nh_.param<std::string>("r_wheel_sensor_topic", r_wheel_sensor_topic_name, "wheel_right/sensors/core");
 	root_nh_.param("num_motor_poles", NUM_MOTOR_POLES, 58);
-	root_nh_.param("wheel_radius", WHEEL_RADIUS, 0.05);
 
 	// init pub/sub
 	duty_l_pub_ = root_nh_.advertise<std_msgs::Float64>(l_wheel_drv_topic_name, 10);
@@ -46,44 +45,13 @@ TwoWheeled::TwoWheeled(ros::NodeHandle nh)
 	registerInterface(&jnt_vel_interface);
 }
 
-void TwoWheeled::read(ros::Time time, ros::Duration dt)
+void TwoWheeled::read(ros::Time time, ros::Duration period)
 {
-	l_pos_[0] = pos_[0];
-	l_pos_[1] = pos_[1];
-
 	pos_[0] = tachometer_[0] / NUM_MOTOR_POLES * 2.0 * M_PI;
 	pos_[1] = tachometer_[1] / NUM_MOTOR_POLES * 2.0 * M_PI;
-
-	double t = dt.toSec();
-	vel_[0] = (pos_[0] - l_pos_[0]) / t;
-	vel_[1] = (pos_[1] - l_pos_[1]) / t;
-}
-
-void TwoWheeled::read(const std_msgs::TimeConstPtr &time, const std_msgs::DurationConstPtr &dt)
-{
-	l_pos_[0] = pos_[0];
-	l_pos_[1] = pos_[1];
-
-	pos_[0] = tachometer_[0] / NUM_MOTOR_POLES * 2.0 * M_PI;
-	pos_[1] = tachometer_[1] / NUM_MOTOR_POLES * 2.0 * M_PI;
-
-	double t = dt->data.toSec();
-	vel_[0] = (pos_[0] - l_pos_[0]) / t;
-	vel_[1] = (pos_[1] - l_pos_[1]) / t;
 }
 
 void TwoWheeled::write(ros::Time time, ros::Duration period)
-{
-	// command each motor
-	std_msgs::Float64::Ptr cmd_l(new std_msgs::Float64);
-	std_msgs::Float64::Ptr cmd_r(new std_msgs::Float64);
-	cmd_l->data = cmd_[0];
-	cmd_r->data = cmd_[1];
-	duty_l_pub_.publish(cmd_l);
-	duty_r_pub_.publish(cmd_r);
-}
-
-void TwoWheeled::write(const std_msgs::TimeConstPtr &time, const std_msgs::DurationConstPtr &dt)
 {
 	// command each motor
 	std_msgs::Float64::Ptr cmd_l(new std_msgs::Float64);
