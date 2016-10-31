@@ -29,7 +29,5 @@
 		<arg name="port" value="/dev/ttyACM1"/>
 	</include>
 
-	<node name="rrcar_driver_nodelet" pkg="nodelet" type="nodelet" args="load rrcar_control::RRCarDriverNodelet $(arg manager)" output="screen" ns="rrcar">
-		<arg name="node_name" value="vesc_wheel_r"/>
-	</node>
+	<node name="rrcar_driver_nodelet" pkg="nodelet" type="nodelet" args="load rrcar_control/RRCarDriverNodelet $(arg manager)" output="screen" ns="rrcar" />
 </launch>
