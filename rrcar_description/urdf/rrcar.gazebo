@@ -22,7 +22,7 @@
 		<mu2>5</mu2>
 		<fdir1>1 0 0</fdir1>
 		<maxVel>1.0</maxVel>
-		<minDepth>0.003</minDepth>
+		<minDepth>0.0001</minDepth>
 		<material>Gazebo/Blue</material>
 	</gazebo>
 	<gazebo reference="wheel_right">
@@ -32,7 +32,7 @@
 		<mu2>5</mu2>
 		<fdir1>1 0 0</fdir1>
 		<maxVel>1.0</maxVel>
-		<minDepth>0.003</minDepth>
+		<minDepth>0.0001</minDepth>
 		<material>Gazebo/Blue</material>
 	</gazebo>
 	<gazebo reference="camera_link">
