@@ -72,7 +72,7 @@
 		<child link="wheel_left" />
 		<origin xyz="0 ${track_width / 2} ${wheel_radius - vehicle_height}" rpy="0 0 0" />
 		<axis xyz="0 1 0" />
-		<limit effort="8" velocity="30.0" />
+		<limit effort="2" velocity="10.0" />
 		<dynamics damping="0.3" friction="0.2" />
 	</joint>
 	<xacro:wheel_transmission name="wheel_left" />
@@ -87,8 +87,8 @@
 		<parent link="base_link" />
 		<child link="wheel_right" />
 		<origin xyz="0 -${track_width / 2} ${wheel_radius - vehicle_height}" rpy="0 0 0" />
-		<axis xyz="0 -1 0" />
-		<limit effort="8" velocity="30.0" />
+		<axis xyz="0 1 0" />
+		<limit effort="2" velocity="10.0" />
 		<dynamics damping="0.3" friction="0.2" />
 	</joint>
 	<xacro:wheel_transmission name="wheel_right" />

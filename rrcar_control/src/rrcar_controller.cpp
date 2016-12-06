@@ -63,7 +63,7 @@ void update_odometry(void)
 		double v, vl, vr;
 		double dx_, dy_, dtheta_;
 		vl = WHEEL_RADIUS * -d_rad_left;
-		vr = WHEEL_RADIUS * d_rad_right;
+		vr = WHEEL_RADIUS * -d_rad_right;
 
 		boost::mutex::scoped_lock lock(mtx);
 		dtheta_ = (vr - vl) / TRACK_WIDTH;
@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
 		std_msgs::Float64::Ptr cmd_l(new std_msgs::Float64);
 		std_msgs::Float64::Ptr cmd_r(new std_msgs::Float64);
 		cmd_l->data = cmd_vx - cmd_yaw;
-		cmd_r->data = -(cmd_vx + cmd_yaw);
+		cmd_r->data = cmd_vx + cmd_yaw;
 		pub_l_wheel.publish(cmd_l);
 		pub_r_wheel.publish(cmd_r);
 
