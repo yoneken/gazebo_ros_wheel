@@ -10,8 +10,8 @@
 			<mass value="${mass}" />
 			<origin xyz="${origin_xyz}" />
 			<inertia ixx="1.0" ixy="0.0" ixz="0.0"
-													iyy="1.0" iyz="0.0"
-																		izz="1.0" />
+				 iyx="0.0" iyy="1.0" iyz="0.0"
+				 izx="0.0" izy="0.0" izz="1.0" />
 		</inertial>
 	</xacro:macro>
 
