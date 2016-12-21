@@ -156,6 +156,15 @@
 		</inertial>
 	</link>
 
+	<joint name="imu_joint" type="fixed">
+		<axis xyz="0 0 1" />
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<parent link="base_link" />
+		<child link="imu_link" />
+	</joint>
+
+	<link name="imu_link" />
+
   <xacro:include filename="$(find rrcar_description)/urdf/rrcar.gazebo" />
 
 </robot>

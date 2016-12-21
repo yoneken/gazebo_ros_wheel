@@ -3,6 +3,10 @@
 This is a sample program to control 2 wheeled car with ros_control.
 ![Image of the gazebo model and rviz](https://pbs.twimg.com/media/CtsIrjPVUAEHcwe.jpg:large)
 
+## Note
+
+I preffer to use libgazebo_ros_imu_sensor.so [Unmerged to gazebo_ros_pkg](https://github.com/ros-simulation/gazebo_ros_pkgs/pull/363)
+
 ## Usage
 ### Launch simulator
     roslaunch rrcar_description empty.launch

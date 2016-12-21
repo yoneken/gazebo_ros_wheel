@@ -128,4 +128,22 @@
 			</plugin>
 		</sensor>
 	</gazebo>
+
+	<!-- imu -->
+	<gazebo reference="imu_link">
+		<sensor type="imu" name="imu">
+			<imu>
+			</imu>
+			<plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+				<bodyName>base_link</bodyName>
+				<frameName>base_link</frameName>
+				<topicName>imu</topicName>
+				<gaussianNoise>0.01</gaussianNoise>
+				<updateRateHZ>100.0</updateRateHZ>
+				<xyzOffset>0.0 0.0 0.0</xyzOffset>
+				<rpyOffset>0.0 0.0 0.0</rpyOffset>
+			</plugin>
+		</sensor>
+	</gazebo>
+
 </robot>
