@@ -1,21 +1,6 @@
 <!-- -*- mode: XML -*- -->
 <launch>
 
-	<arg name="control_hz" default="50" />
-	<arg name="track_width" default="0.22" />
-	<arg name="wheel_radius" default="0.05" />
-
-	<arg name="odom_topic" default="odom" />
-	<arg name="cmd_topic" default="cmd_vel" />
-	<arg name="l_wheel_topic" default="wheel_left/velocity_controller/command" />
-	<arg name="r_wheel_topic" default="wheel_right/velocity_controller/command" />
-	<arg name="joint_states_topic" default="joint_states" />
-
-	<arg name="odom_frame_name" default="odom" />
-	<arg name="base_frame_name" default="base_footprint" />
-
-	<arg name="use_odom_tf" default="true" />
-
 	<!-- Load joint controller configurations from YAML file to parameter server -->
 	<rosparam file="$(find rrcar_control)/config/rrcar_control.yaml" command="load"/>
 

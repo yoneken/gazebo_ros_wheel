@@ -22,3 +22,5 @@ rrcar:
 
     # Base frame_id
     base_frame_id: base_footprint
+
+    enable_odom_tf: true
